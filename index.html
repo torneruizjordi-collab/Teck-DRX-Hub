@@ -14,646 +14,231 @@
   --text-muted: #8a99ad;
   --border: rgba(0, 240, 255, 0.2);
   --danger: #ff4757;
-  --success: #2ed573;
 }
 
-* { 
-  box-sizing: border-box; 
-  margin: 0; 
-  padding: 0; 
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  -webkit-tap-highlight-color: transparent;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 50px; }
 
-*:focus { outline: none; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(112, 0, 255, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.15) 0%, transparent 40%);
-  padding-bottom: 80px;
-}
-
-/* Bannière Cookies */
-.cookie-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(10, 12, 18, 0.95);
-  border-top: 1px solid var(--accent);
-  backdrop-filter: blur(10px);
-  padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  z-index: 1000;
-  box-shadow: 0 -5px 25px rgba(0,0,0,0.8);
-}
-
-.cookie-banner p { font-size: 0.85rem; color: var(--text-muted); }
-
-/* Header & Avatar */
-header {
-  text-align: center;
-  padding: 40px 20px 20px;
-  position: relative;
-}
-
-.auth-box {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+header { text-align: center; padding: 40px 20px 20px; position: relative; }
+.auth-box { position: absolute; top: 20px; right: 20px; }
 
 .avatar-container {
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 20px;
-  position: relative;
+  width: 120px; height: 120px; margin: 0 auto 20px; position: relative; cursor: pointer;
 }
-
 .avatar-img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid var(--accent);
-  box-shadow: 0 0 25px rgba(0, 240, 255, 0.5);
-  background: #111;
+
+  width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+  border: 3px solid var(--accent); box-shadow: 0 0 25px rgba(0, 240, 255, 0.5); background: #111;
 }
-
-h1 {
-  font-size: 2.8rem;
-  letter-spacing: 2px;
-  background: linear-gradient(to right, #fff, var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 8px;
+.avatar-edit-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%;
+  background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center;
+  color: #fff; font-size: 0.8rem; font-weight: bold; text-align: center;
 }
+.avatar-container:hover .avatar-edit-overlay.admin-active { display: flex; }
 
-p.subtitle { color: var(--text-muted); font-size: 1.1rem; }
+h1 { font-size: 2.5rem; color: var(--accent); }
+.subtitle { color: var(--text-muted); }
 
-/* Navigation Tabs */
-.nav-tabs {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin: 25px auto 10px;
-  max-width: 1000px;
-  padding: 0 20px;
-  flex-wrap: wrap;
-}
+.nav-tabs { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
+.tab-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; padding: 10px 20px; border-radius: 10px; cursor: pointer; }
+.tab-btn.active { background: var(--accent); color: #000; font-weight: bold; }
 
-.tab-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  padding: 12px 24px;
-  border-radius: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.tab-btn:hover { color: #fff; border-color: var(--accent); }
-
-.tab-btn.active {
-  background: var(--accent);
-  color: #000;
-  border-color: var(--accent);
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
-}
-
-/* Layout */
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
+.container { max-width: 800px; margin: 0 auto; padding: 20px; }
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
-.card {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  backdrop-filter: blur(12px);
-  border-radius: 20px;
-  padding: 25px;
-  margin-bottom: 25px;
-  transition: all 0.3s ease;
-}
-
-.card h2 {
-  font-size: 1.5rem;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--accent);
-}
-
-.creator-tag {
-  background: #ffcc00;
-  color: #000;
-  font-size: 0.75rem;
-  font-weight: bold;
-  padding: 2px 8px;
-  border-radius: 10px;
-  margin-left: 8px;
-}
-
-/* Panneau Admin */
-.admin-panel {
-  display: none;
-  background: rgba(255, 204, 0, 0.08);
-  border: 1px dashed #ffcc00;
-  border-radius: 15px;
-  padding: 20px;
-  margin-bottom: 25px;
-}
-
+.card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 15px; padding: 20px; margin-bottom: 20px; }
+.admin-panel { display: none; background: rgba(255, 204, 0, 0.1); border: 1px dashed #ffcc00; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
 .admin-panel.active { display: block; }
 
-input, textarea, select {
-  width: 100%;
-  background: rgba(0,0,0,0.6);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 12px;
-  color: #fff;
-  margin-bottom: 12px;
-  font-size: 0.95rem;
-}
+input, textarea { width: 100%; background: #000; border: 1px solid var(--border); color: #fff; padding: 10px; border-radius: 8px; margin-bottom: 10px; }
+.btn-cyber { background: var(--accent); color: #000; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
 
-/* Boutons */
-.btn-cyber {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 10px 18px;
-  border-radius: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-  text-decoration: none;
-}
-
-.btn-cyber:hover {
-  background: var(--accent);
-  color: #000;
-  box-shadow: 0 0 15px var(--accent);
-  transform: scale(1.02);
-}
-
-.btn-cyber:active { transform: scale(0.98); }
-
-/* Posts & Devlog Cards */
-.post-card {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 15px;
-  padding: 20px;
-  margin-top: 15px;
-  position: relative;
-}
-
-.post-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.post-date { color: var(--accent); font-weight: bold; font-size: 0.9rem; }
-
-.post-image {
-  width: 100%;
-  max-height: 450px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin: 15px 0;
-  border: 1px solid var(--border);
-}
-
-.reaction-bar {
-  display: flex;
-  gap: 12px;
-  margin-top: 15px;
-  align-items: center;
-}
-
-/* Modale / Notifications Toast */
-.toast-notification {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: var(--accent);
-  color: #000;
-  padding: 15px 25px;
-  border-radius: 12px;
-  font-weight: bold;
-  box-shadow: 0 0 20px var(--accent);
-  transform: translateX(150%);
-  transition: transform 0.4s ease;
-  z-index: 2000;
-}
-
-.toast-notification.show { transform: translateX(0); }
-
-/* Comments Section */
-.comments-box {
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.comment-item {
-  background: rgba(255,255,255,0.03);
-  padding: 10px 12px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  margin-bottom: 8px;
-  border-left: 3px solid var(--accent-purple);
-}
-
-.comment-item.creator-reply {
-  border-left-color: #ffcc00;
-  background: rgba(255, 204, 0, 0.05);
-}
-
-.comment-author { font-weight: bold; color: var(--accent); }
-
-.links-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
-  margin-top: 15px;
-}
-
-footer {
-  text-align: center;
-  padding: 40px;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
+.post-card { background: rgba(0,0,0,0.5); border: 1px solid var(--border); padding: 15px; border-radius: 10px; margin-top: 15px; }
+.post-img { width: 100%; max-height: 350px; object-fit: cover; border-radius: 8px; margin-top: 10px; }
 </style>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // Configuration Firebase Gratuite
+  const firebaseConfig = {
+    apiKey: "AIzaSyD-placeholder",
+    authDomain: "teck-drx.firebaseapp.com",
+    projectId: "teck-drx",
+    storageBucket: "teck-drx.appspot.com",
+    messagingSenderId: "123456789",
+    appId: "1:123456789:web:abc123def"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.db = db;
+  window.addDoc = addDoc;
+  window.collection = collection;
+  window.onSnapshot = onSnapshot;
+  window.doc = doc;
+  window.updateDoc = updateDoc;
+</script>
 </head>
 <body>
 
-<!-- Toast pour les notifications -->
-<div id="toast" class="toast-notification">🔔 Notification activée !</div>
-
-<!-- Bannière Cookies -->
-<div id="cookieBanner" class="cookie-banner">
-  <p>🍪 Ce site utilise des cookies locaux pour sauvegarder vos préférences et notifications.</p>
-  <button class="btn-cyber" style="background: var(--accent); color: #000;" onclick="acceptCookies()">Accepter</button>
-</div>
-
 <header>
-  <!-- Espace Connexion Administrateur -->
   <div class="auth-box">
-    <button class="btn-cyber" id="loginBtn" onclick="loginAdmin()" style="padding: 6px 12px; font-size: 0.85rem;">🔐 Connexion Admin</button>
-    <span id="userInfo" style="display:none; font-size: 0.9rem; color: var(--accent);"></span>
+    <button class="btn-cyber" id="loginBtn" onclick="loginAdmin()">🔐 Connexion Admin</button>
+    <span id="userInfo" style="display:none; color: #ffcc00; font-weight: bold;"></span>
   </div>
 
-  <div class="avatar-container">
-    <img src="https://yt3.googleusercontent.com/ytc/AIdro_k6-oE6pS4c-53f7zN2J8Yy7g8b3u2V-P4j9X0G=s176-c-k-c0x00ffffff-no-rj" alt="Teck_DRX PDP" class="avatar-img">
+  <div class="avatar-container" onclick="triggerAvatarUpload()">
+    <img id="avatarImg" src="https://via.placeholder.com/150/00f0ff/000000?text=DRX" alt="PDP" class="avatar-img">
+    <div class="avatar-edit-overlay" id="avatarOverlay">📷 Changer la photo</div>
   </div>
+  <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="uploadNewAvatar(this)">
+
   <h1>Teck_DRX</h1>
-  <p class="subtitle" id="headerSubtitle">Tech • Gaming • Création & Développeur Indépendant</p>
+  <p class="subtitle">Tech • Gaming • Développeur Indépendant</p>
 </header>
 
-<!-- Navigation par Onglets -->
 <div class="nav-tabs">
   <button class="tab-btn active" onclick="switchTab('guardianTab', this)">🎮 Legend of Guardian</button>
-  <button class="tab-btn" onclick="switchTab('planningTab', this)">📅 Planning / Posts</button>
-  <button class="tab-btn" onclick="switchTab('linksTab', this)">🚀 Réseaux & À Propos</button>
-  <button class="tab-btn" onclick="switchTab('notifTab', this)">🔔 Notifications</button>
+  <button class="tab-btn" onclick="switchTab('planningTab', this)">📅 Planning</button>
 </div>
 
 <div class="container">
 
-  <!-- ==================== TAB 1 : LEGEND OF GUARDIAN ==================== -->
   <div id="guardianTab" class="tab-content active">
-    
-    <!-- Panneau Admin pour le Journal de Bord -->
-    <div class="admin-panel" id="guardianAdminPanel">
-      <h3 style="color: #ffcc00; margin-bottom: 12px;">🛠️ Ajouter une entrée au Journal de Bord</h3>
-      <input type="text" id="devlogTitle" placeholder="Titre (ex: Jour 4 — Système de saut & physique)">
-      <textarea id="devlogDesc" rows="3" placeholder="Description de la mécanique créée..."></textarea>
-      
-      <!-- Upload iPad / Mobile (Appareil photo ou Photothèque) -->
-      <label style="font-size: 0.85rem; color: #ffcc00; display: block; margin-bottom: 5px;">📷 Importer une photo (Photothèque / Appareil photo) :</label>
-      <input type="file" id="devlogFileInput" accept="image/*" style="padding: 8px;">
-      
-      <input type="text" id="devlogTiktok" placeholder="Lien de la vidéo TikTok associée (facultatif)">
-      <button class="btn-cyber" style="background: #ffcc00; color: #000;" onclick="addDevlogEntry()">🚀 Publier dans le Journal</button>
+    <div class="admin-panel" id="adminPanel">
+      <h3 style="color: #ffcc00; margin-bottom: 10px;">🛠️ Espace Admin — Publier un devlog</h3>
+      <input type="text" id="postTitle" placeholder="Titre (ex: Jour 4 — Nouvelle plateforme)">
+      <textarea id="postDesc" rows="3" placeholder="Description de l'avancée..."></textarea>
+      <input type="file" id="postImgInput" accept="image/*">
+      <button class="btn-cyber" onclick="publishDevlog()">🚀 Publier en direct</button>
     </div>
 
     <div class="card">
-      <h2>🎮 Legend of Guardian — Journal de Bord</h2>
-      <p style="color: var(--text-muted); margin-bottom: 15px;">
-        Suivez ici l'évolution quotidienne du développement de <b>Legend of Guardian</b>.
-      </p>
-
-      <div id="devlogContainer"></div>
+      <h2>🎮 Journal de Bord</h2>
+      <div id="postsContainer">Chargement des publications...</div>
     </div>
   </div>
 
-  <!-- ==================== TAB 2 : PLANNING / POSTS ==================== -->
   <div id="planningTab" class="tab-content">
-    
-    <!-- Panneau Admin pour le planning -->
-    <div class="admin-panel" id="planningAdminPanel">
-      <h3 style="color: #ffcc00; margin-bottom: 12px;">📅 Ajouter un Post / Annonce Planning</h3>
-      <input type="text" id="planTitle" placeholder="Titre (ex: Programme de la semaine / Lundi)">
-      <textarea id="planDesc" rows="3" placeholder="Détails du programme ou de l'annonce..."></textarea>
-      <button class="btn-cyber" style="background: #ffcc00; color: #000;" onclick="addPlanningPost()">📢 Publier l'annonce</button>
-    </div>
-
     <div class="card">
-      <h2>📅 Planning & Prochains Posts</h2>
-      <div id="planningContainer"></div>
-    </div>
-  </div>
-
-  <!-- ==================== TAB 3 : RÉSEAUX & À PROPOS ==================== -->
-  <div id="linksTab" class="tab-content">
-    
-    <!-- Panneau Admin pour la Bio -->
-    <div class="admin-panel" id="bioAdminPanel">
-      <h3 style="color: #ffcc00; margin-bottom: 12px;">✏️ Modifier "À Propos du Créateur"</h3>
-      <textarea id="bioInput" rows="4" placeholder="Écris ta nouvelle biographie ici..."></textarea>
-      <button class="btn-cyber" style="background: #ffcc00; color: #000;" onclick="updateBio()">💾 Sauvegarder la Bio</button>
-    </div>
-
-    <div class="card">
-      <h2>👤 À Propos du Créateur</h2>
-      <p id="bioText" style="color: var(--text-muted); line-height: 1.6;">
-        Créateur de contenu passionné par les périphériques tech, les reviews, et le développement de jeux vidéo 2D sous Unity et Roblox Studio.
-      </p>
-    </div>
-
-    <div class="card">
-      <h2>🚀 Mes Réseaux Officiels</h2>
-      <div class="links-grid">
-        <a href="https://www.youtube.com/@DRXTeck" target="_blank" class="btn-cyber">
-          <span>🎬 YouTube (@DRXTeck)</span><span>➔</span>
-        </a>
-        <a href="https://www.tiktok.com/@teckdrxytb" target="_blank" class="btn-cyber">
-          <span>📱 TikTok (@teckdrxytb)</span><span>➔</span>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== TAB 4 : NOTIFICATIONS ==================== -->
-  <div id="notifTab" class="tab-content">
-    <div class="card">
-      <h2>🔔 Centre de Notifications</h2>
-      <p style="color: var(--text-muted); margin-bottom: 20px;">
-        Active les notifications pour ne rater aucune annonce ou avancée du jeu Legend of Guardian.
-      </p>
-      <button class="btn-cyber" id="notifBtn" onclick="toggleNotifications()" style="background: var(--accent); color: #000;">
-        🔔 Activer les notifications
-      </button>
+      <h2>📅 Planning des sorties</h2>
+      <p style="color: var(--text-muted);">Les prochains posts arriveront ici !</p>
     </div>
   </div>
 
 </div>
 
-<footer>
-  <p>© 2026 Teck_DRX — Tous droits réservés.</p>
-</footer>
-
 <script>
-// Gestion des Cookies
-function acceptCookies() {
-  document.getElementById('cookieBanner').style.display = 'none';
-  localStorage.setItem('cookiesAccepted', 'true');
-}
+let isAdmin = false;
 
-if (localStorage.getItem('cookiesAccepted') === 'true') {
-  document.getElementById('cookieBanner').style.display = 'none';
-}
-
-// Notifications
-function toggleNotifications() {
-  const btn = document.getElementById('notifBtn');
-  if (btn.innerText.includes('Activer')) {
-    btn.innerText = '🔕 Désactiver les notifications';
-    btn.style.background = 'var(--danger)';
-    btn.style.color = '#fff';
-    showToast('🔔 Notifications activées avec succès !');
-  } else {
-    btn.innerText = '🔔 Activer les notifications';
-    btn.style.background = 'var(--accent)';
-    btn.style.color = '#000';
-    showToast('🔕 Notifications désactivées.');
-  }
-}
-
-function showToast(msg) {
-  const toast = document.getElementById('toast');
-  toast.innerText = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 3000);
-}
-
-// Gestion des Onglets
 function switchTab(tabId, btn) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-  
   document.getElementById(tabId).classList.add('active');
   btn.classList.add('active');
 }
 
-// Mode Admin
-let isAdmin = false;
-
 function loginAdmin() {
-  const password = prompt("Entrez votre mot de passe administrateur :");
-  if (password === "DANCO66Teck") {
+  const pwd = prompt("Mot de passe Admin :");
+  if (pwd === "DANCO66Teck") {
     isAdmin = true;
     document.getElementById('loginBtn').style.display = 'none';
-    const info = document.getElementById('userInfo');
-    info.style.display = 'inline';
-    info.innerHTML = `Connecté : <b>Teck_DRX</b> <span class="creator-tag">ADMIN</span>`;
-    
-    document.getElementById('guardianAdminPanel').classList.add('active');
-    document.getElementById('planningAdminPanel').classList.add('active');
-    document.getElementById('bioAdminPanel').classList.add('active');
-    showToast('🔓 Connecté en tant qu\'Admin !');
-  } else if (password !== null) {
+    document.getElementById('userInfo').innerText = "Connecté : Admin";
+    document.getElementById('userInfo').style.display = 'inline';
+    document.getElementById('adminPanel').classList.add('active');
+    document.getElementById('avatarOverlay').classList.add('admin-active');
+    alert("🔓 Mode Admin activé !");
+  } else {
     alert("Mot de passe incorrect.");
   }
 }
 
-// Mise à jour de la Bio
-function updateBio() {
-  const text = document.getElementById('bioInput').value.trim();
-  if (text) {
-    document.getElementById('bioText').innerText = text;
-    document.getElementById('bioInput').value = '';
-    showToast('💾 Bio mise à jour !');
+// Changement de photo de profil Admin
+function triggerAvatarUpload() {
+  if (isAdmin) {
+    document.getElementById('avatarInput').click();
   }
 }
 
-// Ajouter une entrée au Journal de Bord
-function addDevlogEntry() {
-  const title = document.getElementById('devlogTitle').value.trim();
-  const desc = document.getElementById('devlogDesc').value.trim();
-  const fileInput = document.getElementById('devlogFileInput');
-  const tiktokUrl = document.getElementById('devlogTiktok').value.trim();
+function uploadNewAvatar(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('avatarImg').src = e.target.result;
+      localStorage.setItem('customAvatar', e.target.result);
+      alert("Photo de profil mise à jour !");
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+// Charger l'avatar sauvegardé
+if (localStorage.getItem('customAvatar')) {
+  document.getElementById('avatarImg').src = localStorage.getItem('customAvatar');
+}
+
+// Publication du Devlog
+function publishDevlog() {
+  const title = document.getElementById('postTitle').value.trim();
+  const desc = document.getElementById('postDesc').value.trim();
+  const fileInput = document.getElementById('postImgInput');
 
   if (!title || !desc) {
-    alert("Veuillez remplir au moins le titre et la description.");
+    alert("Remplis le titre et la description !");
     return;
   }
 
-  const container = document.getElementById('devlogContainer');
-  const card = document.createElement('div');
-  card.className = 'post-card';
-
-  const processCard = (imgSrc) => {
-    let imgHTML = imgSrc ? `<img src="${imgSrc}" class="post-image" alt="Aperçu mécanique">` : '';
-    let tiktokHTML = tiktokUrl ? `<a href="${tiktokUrl}" target="_blank" class="btn-cyber" style="margin-top: 10px;">📱 Voir la démonstration sur TikTok ➔</a>` : '';
-
-    card.innerHTML = `
-      <div class="post-header">
-        <span class="post-date">📅 Mis à jour récemment</span>
-      </div>
-      <h3>${title}</h3>
-      <p style="color: var(--text-muted); margin-top: 8px; line-height: 1.5;">${desc}</p>
-      ${imgHTML}
-      ${tiktokHTML}
-      
-      <div class="reaction-bar">
-        <button class="btn-cyber" onclick="likePost(this)">❤️ <span class="like-count">0</span></button>
-        <button class="btn-cyber" onclick="dislikePost(this)">👎 Dislike</button>
-      </div>
-
-      <div class="comments-box">
-        <div class="comment-list"></div>
-        <div style="display: flex; gap: 10px; margin-top: 12px;">
-          <input type="text" placeholder="Écrire un commentaire..." class="comment-input">
-          <button class="btn-cyber" onclick="addComment(this)">Poster</button>
-        </div>
-      </div>
-    `;
-
-    container.prepend(card);
-    showToast('🚀 Nouvelle entrée publiée !');
-
-    // Reinitialisation
-    document.getElementById('devlogTitle').value = '';
-    document.getElementById('devlogDesc').value = '';
-    document.getElementById('devlogFileInput').value = '';
-    document.getElementById('devlogTiktok').value = '';
+  const processAndSave = (imgBase64) => {
+    const posts = JSON.parse(localStorage.getItem('sharedPosts') || "[]");
+    posts.unshift({
+      title: title,
+      desc: desc,
+      img: imgBase64,
+      date: new Date().toLocaleDateString('fr-FR')
+    });
+    localStorage.setItem('sharedPosts', JSON.stringify(posts));
+    renderPosts();
+    
+    document.getElementById('postTitle').value = '';
+    document.getElementById('postDesc').value = '';
+    document.getElementById('postImgInput').value = '';
+    alert("✅ Publié avec succès !");
   };
 
   if (fileInput.files && fileInput.files[0]) {
     const reader = new FileReader();
-    reader.onload = function(e) {
-      processCard(e.target.result);
-    };
+    reader.onload = (e) => processAndSave(e.target.result);
     reader.readAsDataURL(fileInput.files[0]);
   } else {
-    processCard(null);
+    processAndSave(null);
   }
 }
 
-// Ajouter un Post / Planning
-function addPlanningPost() {
-  const title = document.getElementById('planTitle').value.trim();
-  const desc = document.getElementById('planDesc').value.trim();
+function renderPosts() {
+  const container = document.getElementById('postsContainer');
+  const posts = JSON.parse(localStorage.getItem('sharedPosts') || "[]");
 
-  if (!title || !desc) {
-    alert("Veuillez remplir le titre et la description.");
+  if (posts.length === 0) {
+    container.innerHTML = "<p style='color:var(--text-muted);'>Aucun post pour le moment.</p>";
     return;
   }
 
-  const container = document.getElementById('planningContainer');
-  const card = document.createElement('div');
-  card.className = 'post-card';
-
-  card.innerHTML = `
-    <div class="post-header">
-      <span class="post-date">📢 Programme</span>
+  container.innerHTML = posts.map(p => `
+    <div class="post-card">
+      <small style="color:var(--accent);">${p.date}</small>
+      <h3 style="margin:5px 0;">${p.title}</h3>
+      <p style="color:var(--text-muted);">${p.desc}</p>
+      ${p.img ? `<img src="${p.img}" class="post-img">` : ''}
     </div>
-    <h3>${title}</h3>
-    <p style="color: var(--text-muted); margin-top: 8px; line-height: 1.5;">${desc}</p>
-    
-    <div class="reaction-bar">
-      <button class="btn-cyber" onclick="likePost(this)">❤️ <span class="like-count">0</span></button>
-      <button class="btn-cyber" onclick="dislikePost(this)">👎 Dislike</button>
-    </div>
-
-    <div class="comments-box">
-      <div class="comment-list"></div>
-      <div style="display: flex; gap: 10px; margin-top: 12px;">
-        <input type="text" placeholder="Écrire un commentaire..." class="comment-input">
-        <button class="btn-cyber" onclick="addComment(this)">Poster</button>
-      </div>
-    </div>
-  `;
-
-  container.prepend(card);
-  showToast('📢 Annonce publiée !');
-
-  document.getElementById('planTitle').value = '';
-  document.getElementById('planDesc').value = '';
+  `).join('');
 }
 
-// Likes & Dislikes
-function likePost(btn) {
-  const count = btn.querySelector('.like-count');
-  count.innerText = parseInt(count.innerText) + 1;
-}
-
-function dislikePost(btn) {
-  const confirmHide = confirm("Si vous masquez ce contenu, vous ne le verrez plus. Êtes-vous sûr ?");
-  if (confirmHide) {
-    const card = btn.closest('.post-card');
-    card.style.display = 'none';
-    showToast('🙈 Contenu masqué.');
-  }
-}
-
-// Commentaires
-function addComment(btn) {
-  const box = btn.closest('.comments-box');
-  const input = box.querySelector('.comment-input');
-  const text = input.value.trim();
-
-  if (!text) return;
-
-  const list = box.querySelector('.comment-list');
-  const item = document.createElement('div');
-  item.className = 'comment-item' + (isAdmin ? ' creator-reply' : '');
-  
-  const authorName = isAdmin ? 'Teck_DRX' : 'Visiteur';
-  const tag = isAdmin ? ' <span class="creator-tag">ADMIN</span>' : '';
-  
-  item.innerHTML = `<div class="comment-author">${authorName}${tag}</div><div>${text.replace(/</g, "&lt;")}</div>`;
-  list.appendChild(item);
-  input.value = '';
-}
+renderPosts();
 </script>
 
 </body>
